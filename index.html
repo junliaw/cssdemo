@@ -1,66 +1,143 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>ch20_34.html</title>
+<head>
+    <meta charset="UTF-8">
+    <title>16:9 導覽頁 - 陣列管理版</title>
     <style>
-      h1 {
-        text-align: center;
-      }
-      #container {
-        width: 100%;
-        height: 600px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      header {
-        width: 100%;
-        height: 90px;
-        background-color: lightyellow;
-      }
-      nav {
-        width: 100%;
-        height: 90px;
-        background-color: aqua;
-      }
-      article {
-        width: 70%;
-        height: 330px;
-        background-color: greenyellow;
-        text-align:left;
-      }
-      article h1 {
-        text-align:left;
-      }      
-      aside {
-        width: 30%;
-        height: 330px;
-        background-color: pink;
-      }
-      footer {
-        width: 100%;
-        height: 90px;
-        background-color: yellow;
-      }
+        /* --- 基礎設定 --- */
+        body {
+            background-image: url('./N1146714_1_2_3/media/main.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding-top: 30px;
+            font-family: Arial, sans-serif;
+            background-color: #333; 
+        }
+
+        /* --- 主容器 1280x720 --- */
+        #box {
+            width: 1280px;
+            height: 720px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.8); 
+            border: 5px solid #888;
+            overflow: hidden;
+            display: flex; 
+        }
+
+        /* --- 左邊選單 --- */
+        #menu {
+            width: 320px;
+            height: 720px;
+            background-color: #ccc;
+            padding: 5px;
+            box-sizing: border-box;
+            overflow-y: auto; 
+        }
+
+        /* --- 右邊螢幕 --- */
+        #screen {
+            width: 960px;
+            height: 720px;
+            background-color: #fff;
+            position: relative;
+        }
+
+        /* --- 按鈕樣式 --- */
+        .btn {
+            display: block;
+            width: 100%;
+            height: 60px;
+            margin-bottom: 5px;
+            background-color: #ddd; 
+            border: 1px solid #999;
+            text-decoration: none;
+            color: #333;
+            line-height: 60px;
+            padding-left: 15px;
+            box-sizing: border-box;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.2s; /* 變色平滑一點 */
+        }
+
+        .btn:hover {
+            background-color: #ffcc00; 
+            border-color: #fff;
+        }
+
+        .num {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            background-color: #555;
+            color: #fff;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        iframe {
+            border: 0;
+            position: absolute;
+            top: 0; left: 0;
+            width: 1280px;  
+            height: 960px;
+            transform: scale(0.75); 
+            transform-origin: top left;
+        }
     </style>
-  </head>
-  <body>
-    <div id="container">
-      <header><h1>網站標題</h1></header>
-      <nav><h1>導覽列</h1></nav>
-      <article><h1>主要文章
-      <div>
-        <ul class="list">
-          <li class="html" href="#">HTML</li>
-          <li class="css">CSS</li>
-          <li class="js">JS</li>
-          <li class="gas" id="gas">Google Apps Script</li>
-        </ul>
-      </div>
-      </h1></article>
-      <aside><h1>側欄</h1></aside>
-      <footer><h1>網站底部</h1></footer>
+</head>
+<body>
+
+    <div id="box">
+        <div id="menu"></div>
+        <div id="screen">
+            <iframe id="myFrame" src="about:blank"></iframe>
+        </div>
     </div>
-  </body>
+
+    <script>
+        var pages = [
+            { name: "廖文俊 N1146714_2", url: "./N1146714_1_2_3/2.html" },
+            { name: "廖文俊 N1146714_3", url: "./N1146714_1_2_3/3.html" },
+            { name: "林姿羽 N1146713_1", url: "./N1146713_4_5_6/4.html" },
+            { name: "林姿羽 N1146713_2", url: "./N1146713_4_5_6/5.html" },
+            { name: "林姿羽 N1146713_3", url: "./N1146713_4_5_6/6.html" },
+            { name: "謝沛岑 N1146733_1", url: "./N1146733_7_8_9/7.html" },
+            { name: "謝沛岑 N1146733_2", url: "./N1146733_7_8_9/8.html" },
+            { name: "謝沛岑 N1146733_3", url: "./N1146733_7_8_9/9.html" },
+            { name: "李瑞彬 N1146736_1", url: "./N1146736_10_11_12/10.html" },
+            { name: "李瑞彬 N1146736_2", url: "./N1146736_10_11_12/11.html" },
+            { name: "李瑞彬 N1146736_3", url: "./N1146736_10_11_12/12.html" }, 
+            //{ name: "最後一頁", url: "TEST.html" }
+        ];
+
+        var menu = document.getElementById("menu");
+        var frame = document.getElementById("myFrame");
+        var html = "";
+
+        // 使用陣列進行迴圈
+        for (var i = 0; i < pages.length; i++) {
+            var p = pages[i];
+            var displayNum = (i + 2) < 10 ? "0" + (i + 2) : (i + 2); // 保持視覺上的 02, 03...
+
+            html += '<a href="#" class="btn" ' +
+                    'onmouseover="document.getElementById(\'myFrame\').src=\'' + p.url + '\'">' +
+                    '<span class="num">' + displayNum + '</span>' + 
+                    p.name + 
+                    '</a>';
+        }
+
+        menu.innerHTML = html;
+
+        // 預設載入第一筆資料的網址
+        frame.src = pages[0].url;
+    </script>
+
+</body>
 </html>
